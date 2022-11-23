@@ -25,7 +25,6 @@ var timer = 0.000
 
 function onInit() {
     gBoard = createBoard()
-    console.table(gBoard)
     renderBoard(gBoard, '.board-container')
 
 
@@ -93,21 +92,30 @@ function gameOver(){
 
 
 function makeAllMinesApear(){
-    findAllMines()
-    console.log('findAllMines():', findAllMines())
+
+    var allMinesPoses = findAllMines()
+    for(var i = 0 ; i < allMinesPoses.length;i++){
+        var mineCell = allMinesPoses[i]
+        var cellToApear = gBoard[mineCell.i][mineCell.j]
+        cellToApear.isShown = true
+     }
+     renderBoard(gBoard, '.board-container')
+
 }
 
-// function findAllMines(){
-//     var mines= []
-//     for(var i = 0 ; i < gBoard.length;i++){
-//         for(var j = 0 ; j<gBoard[0].length;j++){
-//             var cellPos = {i: gBoard[i][j]}
+function findAllMines(){
+    var mines= []
+    for(var i = 0 ; i < gBoard.length;i++){
+        for(var j = 0 ; j<gBoard[0].length;j++){
+            var cell = gBoard[i][j]
+            if(cell.isMine){
+                var cellPos = {i:i,j:j}
+                mines.push(cellPos)
+             }
+        }
            
-//             if(cell.isMine){
-//                 mines.push(cell)
-//             }
             
-//         }
-//     }
-//     return mines
-// }
+     }
+     return mines
+}
+    // return mines
